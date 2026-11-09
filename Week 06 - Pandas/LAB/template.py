@@ -49,13 +49,15 @@ print(df)
 #    [ ] Run it and check the percent/status columns by hand for one row
 #    [ ] Check you used & (not "and") if you combined more than one condition
 #    [ ] Check every column your code refers to actually exists - watch case
-import pandas as pd
-import matplotlib.pyplot as plt
-df = pd.read_csv("it_storage.csv")
-df["percent"] = (df["used_gb"] / df["total_gb"]) * 100
+
+import pandas as pd     # this imports pandas to work with data and tables
+import matplotlib.pyplot as plt     # matplotlib is used to create charts
+df = pd.read_csv("it_storage.csv")  # here we load the csv file into the dataframe
+df["percent"] = (df["used_gb"] / df["total_gb"]) * 100 
 df["status"] = df["percent"].apply( 
-    lambda x: "OVERLIMIT" if x > 90 else "WARNING" if x >= 75 else "OK"
+    lambda x: "OVERLIMIT" if x > 90 else "WARNING" if x >= 75 else "OK" # checks the percentage and give every row a status
 )
-print(df)
+print(df) # displays the whole dataframe
 print("\nServers that need attention")
 print(df[df["status"]!= "OK"])
+# this displays rows where attention is needed.

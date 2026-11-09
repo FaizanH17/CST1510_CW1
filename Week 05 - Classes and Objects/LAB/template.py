@@ -70,66 +70,31 @@ for record in records:
 #    [ ] Check every method only reads/changes its OWN object (self) -
 #        nothing reaches outside itself
 #    [ ] Check every method and __init__ has a one-line docstring
-class Record:
-    """ Store a  servers hostname and storage information. """
-    def __init__(self, hostname, gb_used, gb_total):
-        """ store the servers detatils"""
-        self.hostname = hostname
-        self.gb_used = gb_used
-        self.gb_total = gb_total
-    def percent(self):
-        """ calculate the percentage of storage used """
-        return (self.gb_used / self.gb_total) * 100
-    def status(self):
-        """ return the status of the server based on storage used """
-        if self.percent() >= 100:
-            return "OVER LIMIT"
-        elif self.percent() >= 90:
-            return "WARNING"
-        else:
-            return "OK"
-    def summary(self):
-        """ return a summary of the server's storage information """
-        return f"{self.hostname}: {self.gb_used}GB used of {self.gb_total}GB ({self.percent():.2f}%) - {self.status()}"
-    
-    def Record_load_records(path):
-        """ load records from a file and return a list of Record objects """
-        records = []
-        with open(path, 'r') as file:
-            for line in file:
-                line = line.strip()
-                if not line:
-                    continue
-                hostname, gb_used, gb_total = line.split(',')
-                record = Record(
-                    hostname,
-                    float(gb_used),
-                    float(gb_total)
-                )
-                records.append(record)
-        return records
-    def main():
-        r1 = Record("srv-01", 87.0, 100.0)
-        r2 = Record("srv-02", 95.0, 100.0)
+# created a class called record
+class Record: # this sets up the information for each record when made
+    def __init__(self, source_ip, failed_logins, total_attempts):
+        self.source_ip = source_ip
+        self.failed_logins = failed_logins
+        self.total_attempts = total_attempts
 
-        print(r1.summary())
-        print(r2.summary())
-        print("\nChanging the first server:")
-        r1.gb_used = 110.0
-        print(r1.summary())
-        print(r2.summary())
-        print("\nLoading server records from a file:")
 
-        try:
-            records = Record.Record_load_records("records_sample.txt")
-            over_limit_count = 0
-            for record in records:
-                status = record.status()
-                print(f"{record.hostname} {status}")
-                if status == "OVER LIMIT":
-                    over_limit_count += 1
-            print(f"\nTotal servers over limit: {over_limit_count}")
-        except FileNotFoundError:
-            print("Error: records_sample.txt not found.")
-            if __name__ == "__main__":
-                main()
+# right here it creates two records r1 and r2
+r1 = Record("10.0.0.5", 12, 400)
+r2 = Record("192.168.1.1", 5, 200)
+
+
+# here this is where it Prints first report
+print("==============================")
+print("CYBER SECURITY REPORT")
+print("==============================")
+print("Source IP:", r1.source_ip)
+print("Failed Logins:", r1.failed_logins)
+print("Total Attempts:", r1.total_attempts)
+
+#  and here it prints the second report
+print("==============================")
+print("CYBER SECURITY REPORT")
+print("==============================")
+print("Source IP:", r2.source_ip)
+print("Failed Logins:", r2.failed_logins)
+print("Total Attempts:", r2.total_attempts)

@@ -52,3 +52,59 @@ records = []   # replace with your code
 #    [ ] If you are loading from a file, check what happens when the file
 #        does not exist - write the error down
 #    [ ] Check every function still does one job
+# here it create a list of records and it three different records that are stored together.
+records = [
+    {
+        "source_ip": "10.0.0.5",
+        "failed_logins": 12,
+        "total_attempts": 400
+    },
+    {
+        "source_ip": "192.168.1.1",
+        "failed_logins": 300,
+        "total_attempts": 400
+    },
+    {
+        "source_ip": "172.16.0.1",
+        "failed_logins": 380,
+        "total_attempts": 400
+    }
+]
+
+
+#At this point it checks the record and decide its status which means checking the percentage and deciding the result.
+def check_record(record):
+    """Checks failed logins and returns the status."""
+
+    percent = (record["failed_logins"] / record["total_attempts"]) * 100
+
+    if percent >= 90:
+        status = "OVER LIMIT"
+    elif percent >= 75:
+        status = "WARNING"
+    else:
+        status = "OK"
+
+    return percent, status
+
+
+# Print the report for each record
+def print_report(record):
+    """Prints the cyber security report."""
+
+    percent, status = check_record(record)
+
+    print("------------------------------")
+    print("CYBER SECURITY REPORT")
+    print("------------------------------")
+    print("Source IP:", record["source_ip"])
+    print("Failed Logins:", record["failed_logins"])
+    print("Total Attempts:", record["total_attempts"])
+    print("Percentage:", round(percent, 2), "%")
+    print("Status:", status)
+    print("------------------------------")
+
+
+# Go through each record and print its report and repeats the report for every record in list
+for record in records:
+    print_report(record)
